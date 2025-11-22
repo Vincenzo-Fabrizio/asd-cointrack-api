@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.asd.cointrack.model.Coin;
 import com.asd.cointrack.service.CoinService;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/coins")
 @RequiredArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "coinService is an injected Spring bean, not exposed outside")
 public class CoinController {
 
     private final CoinService coinService;
@@ -77,4 +79,3 @@ public class CoinController {
         return ResponseEntity.noContent().build();
     }
 }
-
