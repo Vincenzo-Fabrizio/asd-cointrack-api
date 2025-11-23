@@ -1,36 +1,104 @@
 package com.asd.cointrack.model;
 
+import java.time.Instant;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.asd.cointrack.validation.MaxCurrentYear;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Aggregate root representing a numismatic coin stored in MongoDB.
+ * <p>
+ * The entity includes domain attributes (name, year, physical measures, price,
+ * conservation, rarity), optional links to photos and collection membership,
+ * together with auditing metadata automatically maintained by Spring Data.
+ */
 @Data
+@SuppressFBWarnings(value = "NM_CONFUSING", justification = "ID field name is intentional to align with existing storage and API contract")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "coins")
-
 public class Coin {
+
     @Id
     private String ID;
+
+    @NotBlank(message = "name must not be blank")
+    @Size(max = 100, message = "name must not exceed 100 characters")
     private String name;
+
+    @Min(value = 0, message = "year must be greater than or equal to 0")
+    @MaxCurrentYear
+    @Indexed
     private int year;
+
+    @NotBlank(message = "material must not be blank")
+    @Size(max = 100, message = "material must not exceed 100 characters")
+    @Indexed
     private String material;
+
+    @Positive(message = "weight must be greater than 0")
     private double weight;
+
+    @Positive(message = "diameter must be greater than 0")
     private double diameter;
+
+    @Positive(message = "height must be greater than 0")
     private double height;
+
+    @PositiveOrZero(message = "price must be greater than or equal to 0")
+    @Indexed
     private double price;
+
+    @NotNull(message = "conservationObverse must not be null")
     private OptionConservation conservationObverse;
+
+    @NotNull(message = "conservationReverse must not be null")
     private OptionConservation conservationReverse;
+
+    @NotNull(message = "degree must not be null")
+    @Indexed
     private NumismaticRarity degree;
+
+    @Size(max = 1000, message = "note must not exceed 1000 characters")
     private String note;
     private String photoPathObverse;
     private String photoPathReverse;
-    
+
+    @Indexed
+    private String collectionId;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
+    private String updatedBy;
+
     public Coin(String name, int year, String material, double weight, double diameter, double height, double price,
             OptionConservation conservationObverse, OptionConservation conservationReverse, NumismaticRarity degree,
             String note, String photoPathObverse, String photoPathReverse) {
@@ -50,4 +118,3 @@ public class Coin {
     }
 
 }
-
