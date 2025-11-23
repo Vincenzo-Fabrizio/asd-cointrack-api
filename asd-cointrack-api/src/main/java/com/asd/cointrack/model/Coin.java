@@ -23,6 +23,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Aggregate root representing a numismatic coin stored in MongoDB.
+ * <p>
+ * The entity includes domain attributes (name, year, physical measures, price,
+ * conservation, rarity), optional links to photos and collection membership,
+ * together with auditing metadata automatically maintained by Spring Data.
+ */
 @Data
 @Builder
 @NoArgsConstructor

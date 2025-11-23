@@ -23,6 +23,10 @@ import com.asd.cointrack.service.CoinCollectionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller that manages {@link CoinCollection} resources and provides
+ * access to the coins belonging to each collection.
+ */
 @Validated
 @RestController
 @RequestMapping("/api/collections")
@@ -31,11 +35,22 @@ public class CoinCollectionController {
 
     private final CoinCollectionService collectionService;
 
+    /**
+     * Returns all collections configured in the system.
+     *
+     * @return list of collections
+     */
     @GetMapping
     public List<CoinCollection> getAllCollections() {
         return collectionService.getAllCollections();
     }
 
+    /**
+     * Returns details of a single collection.
+     *
+     * @param id collection identifier
+     * @return 200 with collection body or 404 if not found
+     */
     @GetMapping("/{id}")
     public ResponseEntity<CoinCollection> getCollectionById(@PathVariable String id) {
         CoinCollection collection = collectionService.getCollectionById(id);
@@ -45,12 +60,25 @@ public class CoinCollectionController {
         return ResponseEntity.ok(collection);
     }
 
+    /**
+     * Creates a new collection.
+     *
+     * @param collection validated collection payload
+     * @return 201 with created collection body
+     */
     @PostMapping
     public ResponseEntity<CoinCollection> createCollection(@Valid @RequestBody CoinCollection collection) {
         CoinCollection created = collectionService.createCollection(collection);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    /**
+     * Returns a paginated list of coins belonging to the given collection.
+     *
+     * @param id       collection identifier
+     * @param pageable pagination and sorting information
+     * @return 200 with page of coins or 404 if collection does not exist
+     */
     @GetMapping("/{id}/coins")
     public ResponseEntity<Page<Coin>> getCoinsByCollection(
             @PathVariable String id,
@@ -65,4 +93,3 @@ public class CoinCollectionController {
         return ResponseEntity.ok(coins);
     }
 }
-

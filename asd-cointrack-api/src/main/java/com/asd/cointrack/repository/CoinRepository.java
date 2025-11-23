@@ -11,6 +11,10 @@ import com.asd.cointrack.model.Coin;
 import com.asd.cointrack.model.NumismaticRarity;
 import com.asd.cointrack.model.OptionConservation;
 
+/**
+ * Spring Data Mongo repository for {@link Coin} documents, providing both
+ * basic CRUD operations and custom query methods used by the service layer.
+ */
 public interface CoinRepository extends MongoRepository<Coin, String> {
 
     List<Coin> findByName(String name);

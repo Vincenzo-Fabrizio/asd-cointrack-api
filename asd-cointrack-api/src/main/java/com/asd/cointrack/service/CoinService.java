@@ -26,6 +26,12 @@ import com.asd.cointrack.repository.CoinRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Service layer for querying, mutating and aggregating {@link Coin} data.
+ * <p>
+ * Encapsulates all business logic related to coins, including pagination,
+ * advanced filtering and statistics.
+ */
 @Service
 @RequiredArgsConstructor
 public class CoinService {
@@ -33,6 +39,12 @@ public class CoinService {
     private final CoinRepository coinRepository;
     private final MongoTemplate mongoTemplate;
 
+    /**
+     * Returns all coins in paginated form.
+     *
+     * @param pageable pagination and sorting information
+     * @return page of coins
+     */
     public Page<Coin> getAllCoins(Pageable pageable) {
         Pageable sanitized = sanitizePageable(pageable);
         return coinRepository.findAll(sanitized);
@@ -42,6 +54,14 @@ public class CoinService {
         return coinRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Performs a basic search by name or year.
+     *
+     * @param name     optional exact name filter
+     * @param year     optional year filter
+     * @param pageable pagination and sorting information
+     * @return page of coins matching the criteria
+     */
     public Page<Coin> searchCoins(String name, Integer year, Pageable pageable) {
         Pageable sanitized = sanitizePageable(pageable);
 
@@ -119,6 +139,13 @@ public class CoinService {
         return coinRepository.save(coin);
     }
 
+    /**
+     * Updates an existing coin with the provided data.
+     *
+     * @param id      coin identifier
+     * @param updated new state of the coin
+     * @return updated coin or {@code null} if not found
+     */
     public Coin updateCoin(String id, Coin updated) {
         Coin existing = coinRepository.findById(id).orElse(null);
         if (existing == null) {
@@ -146,6 +173,12 @@ public class CoinService {
         coinRepository.deleteById(id);
     }
 
+    /**
+     * Returns audit information for a single coin.
+     *
+     * @param id coin identifier
+     * @return audit info DTO or {@code null} if the coin does not exist
+     */
     public CoinAuditInfo getCoinAuditInfo(String id) {
         Coin coin = getCoinById(id);
         if (coin == null) {

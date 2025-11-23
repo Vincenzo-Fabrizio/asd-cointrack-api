@@ -17,6 +17,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a logical collection or category of coins (e.g. "Regno d'Italia",
+ * "Euro commemorativi").
+ * <p>
+ * Used to group coins and to provide additional metadata about the group
+ * itself.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -47,4 +54,3 @@ public class CoinCollection {
     @LastModifiedBy
     private String updatedBy;
 }
-

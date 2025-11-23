@@ -5,6 +5,9 @@ import java.time.Year;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * Validator implementation for {@link MaxCurrentYear}.
+ */
 public class MaxCurrentYearValidator implements ConstraintValidator<MaxCurrentYear, Integer> {
 
     @Override
@@ -16,4 +19,3 @@ public class MaxCurrentYearValidator implements ConstraintValidator<MaxCurrentYe
         return value <= currentYear;
     }
 }
-

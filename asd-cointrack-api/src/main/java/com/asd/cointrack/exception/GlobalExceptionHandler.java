@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.validation.ConstraintViolationException;
 
+/**
+ * Centralized REST exception handler that converts validation and business
+ * errors into consistent HTTP 400 responses with a structured JSON body.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

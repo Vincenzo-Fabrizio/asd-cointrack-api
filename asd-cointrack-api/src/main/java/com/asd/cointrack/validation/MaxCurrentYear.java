@@ -11,6 +11,10 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
+/**
+ * Bean Validation constraint that ensures a year value does not exceed the
+ * current calendar year.
+ */
 @Documented
 @Target({ FIELD, PARAMETER })
 @Retention(RUNTIME)
@@ -23,4 +27,3 @@ public @interface MaxCurrentYear {
 
     Class<? extends Payload>[] payload() default {};
 }
-
