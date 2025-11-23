@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>asd-cointrack-api</name>
 	<description>Demo project for Spring Boot</description>
-	<url/>
+	<url>https://github.com/Vincenzo-Fabrizio/asd-cointrack-api</url>
 	<licenses>
 		<license/>
 	</licenses>
@@ -147,6 +147,7 @@
 				<configuration>
 					<failOnViolation>true</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
+					<linkXRef>false</linkXRef>
 				</configuration>
 				<executions>
 					<execution>
